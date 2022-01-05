@@ -10,10 +10,12 @@
     },
     "users": [
         {
+            "id": 1,
             "name": "onnie",
             "email": "onnie.fong@kkday.com"
         },
         {
+            "id": 2,
             "name": "kad",
             "email": "kad.yang@kkday.com"
         }
