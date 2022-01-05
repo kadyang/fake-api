@@ -1,11 +1,21 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "title": "hello"
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+    "posts": [
+        {
+            "id": 1,
+            "title": "hello"
+        }
+    ],
+    "profile": {
+        "name": "typicode"
+    },
+    "users": [
+        {
+            "name": "onnie",
+            "email": "onnie.fong@kkday.com"
+        },
+        {
+            "name": "kad",
+            "email": "kad.yang@kkday.com"
+        }
+    ]
 }
