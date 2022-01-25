@@ -1,7 +1,7 @@
 pipeline {
     agent any
     triggers{
-        cron('*/5 * * * *')
+        cron(["master", "develop"].contains(BRANCH_NAME) ? "*/5 * * * *" : "")
     }
 
     stages {
