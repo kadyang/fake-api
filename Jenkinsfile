@@ -43,7 +43,7 @@ pipeline {
                             "author_link": "$JENKINS_URL",
                             "title": "Job Name : $JOB_NAME",
                             "title_link": "$BUILD_URL",
-                            "text": "CI 執行結果為 : $currentBuild.result\nYou can click link to know more details.",
+                            "text": "CI 執行結果為 : $currentBuild.currentResult\nYou can click link to know more details.",
                         ]
                     ]
 
