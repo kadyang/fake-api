@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    options {
+        ansiColor('xterm')
+        buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '10'))
+    }
+
+    stages {
+        stage('Gen file') {
+            steps {
+                sh 'echo "artifact file" > generatedFile.txt'
+            }
+        }
+        stage('Hello') {
+            steps {
+                ansiblePlaybook playbook: '/vagrant/ansible/playbook.yml', 
+                    inventory: "/vagrant/ansible/${server_env}.ini", 
+                    credentialsId: 'vagrant2', 
+                    extras: "-e source_project_path=${WORKSPACE} -e target_project_path=/home/vagrant/odoo/custom/kkday", 
+                    colorized: true,
+                    disableHostKeyChecking: true
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building....'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+     
+        }
+        stage('show all env') {
+            steps {
+                echo sh(script: 'env|sort', returnStdout: true)
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

@@ -1,0 +1,36 @@
+---
+- name: Deploy Fake-API to Server
+  hosts:
+    - web_server
+  tasks:
+    - block:
+        - name: Copy Code Base to Server
+          ansible.posix.synchronize:
+            src: "{{ source_project_path }}/"
+            dest: "{{ target_project_path }}"
+            recursive: yes
+            checksum: yes
+            owner: no
+            group: no
+            perms: no
+            delete: yes
+            rsync_opts:
+              - "--exclude=.git"
+              - "--exclude=.gitignore"
+              - "--exclude=.gitattributes"
+
+        - name: Change Owner, Group and Permission
+          ansible.builtin.file:
+            path: "{{ target_project_path }}"
+            recurse: yes
+            state: directory
+            owner: www-data
+            group: www-data
+            mode: u=rwX,g=rX,o=rX
+
+        - name: Restart Service
+          ansible.builtin.service:
+            name: nginx
+            state: restarted
+
+      become: yes
