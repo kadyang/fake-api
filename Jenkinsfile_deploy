@@ -9,17 +9,23 @@ pipeline {
     stages {
         stage('Gen file') {
             steps {
-                sh 'echo "artifact file" > generatedFile.txt'
+                sh 'echo "artifact file" > generatedFile_2.txt'
             }
         }
         stage('Hello') {
             steps {
-                ansiblePlaybook playbook: '/vagrant/ansible/playbook.yml', 
-                    inventory: "/vagrant/ansible/${server_env}.ini", 
-                    credentialsId: 'vagrant2', 
-                    extras: "-e source_project_path=${WORKSPACE} -e target_project_path=/home/vagrant/odoo/custom/kkday", 
-                    colorized: true,
-                    disableHostKeyChecking: true
+                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'deployer', 
+                                                             keyFileVariable: 'SSH_KEY_FOR_DEPLOYER',
+                                                             usernameVariable: 'SSH_USERNAME_FOR_DEPLOYER')]) {
+                    ansiblePlaybook playbook: '/vagrant/ansible/playbook.yml', 
+                        inventory: "/vagrant/ansible/${INPUT_SERVER_ENV}.ini", 
+                        extras: "-e source_project_path=${WORKSPACE} \
+                                 -e target_project_path=/home/vagrant/odoo/custom/kkday \
+                                 -u ${SSH_USERNAME_FOR_DEPLOYER} \
+                                 --private-key ${SSH_KEY_FOR_DEPLOYER}", 
+                        colorized: true,
+                        disableHostKeyChecking: true
+                }
             }
         }
         stage('Build') {
