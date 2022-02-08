@@ -17,7 +17,7 @@ pipeline {
                 withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'deployer', 
                                                              keyFileVariable: 'SSH_KEY_FOR_DEPLOYER',
                                                              usernameVariable: 'SSH_USERNAME_FOR_DEPLOYER')]) {
-                    ansiblePlaybook playbook: '.ansible/playbooks/playbook.yml', 
+                    ansiblePlaybook playbook: '.ansible/playbooks/deploy.yml', 
                         inventory: ".ansible/inventories/${INPUT_SERVER_ENV}.ini", 
                         extras: "-e source_project_path=${WORKSPACE} \
                                  -e target_project_path=/home/vagrant/odoo/custom/kkday \
