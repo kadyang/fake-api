@@ -28,9 +28,9 @@
             group: www-data
             mode: u=rwX,g=rX,o=rX
 
-        - name: Restart Service
-          ansible.builtin.service:
-            name: nginx
-            state: restarted
+        # - name: Restart Service
+        #   ansible.builtin.service:
+        #     name: nginx
+        #     state: restarted
 
       become: yes
